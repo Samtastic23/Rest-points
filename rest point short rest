@@ -1,0 +1,12 @@
+!alias rpsr <drac2>
+(ch:=character()).create_cc_nx((cc:="Rest Points"),0,5,'long','bubble')
+i = argparse(&ARGS&).get('i')
+v = ch.get_cc(cc) or i
+f = "Rest points can be spent to regain resources through the resting rules. You may spend 1 rest point when not in a session to take a short rest. When you have accumulated 5 rest points, you lose all rest points and receive a long rest. You can maximum only have 5 rest points at a time, all additional rest points are lost when crossing this threshold."
+foot = f"{ctx.prefix}{ctx.alias} [casting arguments] [-i]"
+if v:
+    ch.mod_cc(cc, -1) if not i else ''
+    return f"""g sr -i &*& -phrase "using their {cc}!" -f "{f}" -f "{cc} {'' if i else '(-1)'}|{ch.cc_str(cc)}" -f "{foot}" """
+else:
+    return f"""embed -title "{name} tries to use their {cc}!" -desc "You don't have enough rest points!" -f "{f}" -f "{cc}|{ch.cc_str(cc)}" -footer "{foot}" """
+</drac2>
